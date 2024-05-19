@@ -7,16 +7,6 @@ import (
 	"strings"
 )
 
-func cleanInput(input string) []string {
-	input = strings.Trim(input, " ")
-	if len(input) == 0 {
-		return []string{}
-	}
-	input = strings.ToLower(input)
-	cleaned := strings.Split(input, " ")
-	return cleaned
-}
-
 type commandConfig struct {
 	Next     string
 	Previous string
@@ -37,12 +27,12 @@ func getCommands() map[string]cliCommand {
 		},
 		"map": {
 			name:        "map",
-			description: "Displays a list of 20 locations",
+			description: "Get the next page of locations",
 			callback:    commandMap,
 		},
 		"mapb": {
 			name:        "map",
-			description: "Displays a list of 20 locations",
+			description: "Get the previous page of locations",
 			callback:    commandMapB,
 		},
 		"exit": {
@@ -51,6 +41,16 @@ func getCommands() map[string]cliCommand {
 			callback:    commandExit,
 		},
 	}
+}
+
+func cleanInput(input string) []string {
+	input = strings.Trim(input, " ")
+	if len(input) == 0 {
+		return []string{}
+	}
+	input = strings.ToLower(input)
+	cleaned := strings.Split(input, " ")
+	return cleaned
 }
 
 func startRepl() {

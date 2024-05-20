@@ -17,7 +17,7 @@ type commandConfig struct {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*commandConfig) error
+	callback    func(*commandConfig, *string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -36,6 +36,11 @@ func getCommands() map[string]cliCommand {
 			name:        "mapb",
 			description: "Get the previous page of locations",
 			callback:    commandMapb,
+		},
+		"explore": {
+			name: "explore",
+			description: "Explore the passed in location",
+			callback: commandExplore,
 		},
 		"exit": {
 			name:        "exit",
@@ -59,20 +64,23 @@ func startRepl(config *commandConfig) {
 	commands := getCommands()
 	scanner := bufio.NewScanner(os.Stdin)
 
-	
-
 	for {
 		fmt.Print("Pokedex > ")
 		scanner.Scan()
 		text := scanner.Text()
+		cleaned := cleanInput(text)
 
-		command, ok := commands[text]
+		command, ok := commands[cleaned[0]]
 		if !ok {
 			fmt.Printf("%v is not supported, see help for usage.\n", text)
 			continue
 		}
 
-		err := command.callback(config)
+		var loc string
+		if len(cleaned) > 1 {
+			loc = cleaned[1]
+		}
+		err := command.callback(config, &loc)
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
 			continue

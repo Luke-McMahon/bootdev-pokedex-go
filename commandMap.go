@@ -6,7 +6,7 @@ import (
 
 )
 
-func commandMapf(config *commandConfig) error {
+func commandMapf(config *commandConfig, s *string) error {
 	locationsResp, err := config.Client.ListLocations(config.Next)
 	if err != nil {
 		return err
@@ -22,7 +22,7 @@ func commandMapf(config *commandConfig) error {
 	return nil
 }
 
-func commandMapb(config *commandConfig) error {
+func commandMapb(config *commandConfig, s *string) error {
 	if config.Previous == nil {
 		return errors.New("you're on the first page")
 	}

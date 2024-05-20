@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/luke-mcmahon/pokedexcli/internal/pokeapi"
 )
 
 type commandConfig struct {
-	Next     string
-	Previous string
+	Client   pokeapi.Client
+	Next     *string
+	Previous *string
 }
 
 type cliCommand struct {
@@ -28,12 +31,12 @@ func getCommands() map[string]cliCommand {
 		"map": {
 			name:        "map",
 			description: "Get the next page of locations",
-			callback:    commandMap,
+			callback:    commandMapf,
 		},
 		"mapb": {
 			name:        "map",
 			description: "Get the previous page of locations",
-			callback:    commandMapB,
+			callback:    commandMapb,
 		},
 		"exit": {
 			name:        "exit",

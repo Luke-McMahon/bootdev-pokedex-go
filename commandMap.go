@@ -3,22 +3,41 @@ package main
 import (
 	"errors"
 	"fmt"
-
-	"github.com/luke-mcmahon/pokedexcli/internal/pokeapi"
 )
 
-func commandMap(config *commandConfig) error {
-	response, err := pokeapi.GetLocations(config.Next)
+func commandMapf(config *commandConfig) error {
+	locationsResp, err := config.Client.ListLocations(config.Next)
 	if err != nil {
-		return errors.New(fmt.Sprintf("Error getting locations from API: %v", err))
+		return err
 	}
 
-	config.Next = response.Next
-	config.Previous = response.Previous
+	config.Next = locationsResp.Next
+	config.Previous = locationsResp.Previous
 
-	for _, loc := range response.Locations {
+	for _, loc := range locationsResp.Results {
 		fmt.Println(loc.Name)
 	}
 
 	return nil
 }
+
+func commandMapb(config *commandConfig) error {
+	if config.Previous == nil {
+		return errors.New("you're on the first page")
+	}
+
+	locationsResp, err := config.Client.ListLocations(config.Previous)
+	if err != nil {
+		return err
+	}
+
+	config.Next = locationsResp.Next
+	config.Previous = locationsResp.Previous
+
+	for _, loc := range locationsResp.Results {
+		fmt.Println(loc.Name)
+	}
+
+	return nil
+}
+

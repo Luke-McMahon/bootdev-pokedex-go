@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
 	"github.com/luke-mcmahon/pokedexcli/internal/pokeapi"
 )
 
@@ -34,7 +33,7 @@ func getCommands() map[string]cliCommand {
 			callback:    commandMapf,
 		},
 		"mapb": {
-			name:        "map",
+			name:        "mapb",
 			description: "Get the previous page of locations",
 			callback:    commandMapb,
 		},
@@ -56,11 +55,11 @@ func cleanInput(input string) []string {
 	return cleaned
 }
 
-func startRepl() {
+func startRepl(config *commandConfig) {
 	commands := getCommands()
 	scanner := bufio.NewScanner(os.Stdin)
 
-	config := commandConfig{}
+	
 
 	for {
 		fmt.Print("Pokedex > ")
@@ -73,9 +72,9 @@ func startRepl() {
 			continue
 		}
 
-		err := command.callback(&config)
+		err := command.callback(config)
 		if err != nil {
-			fmt.Printf("Error: %v", err)
+			fmt.Printf("Error: %v\n", err)
 			continue
 		}
 	}

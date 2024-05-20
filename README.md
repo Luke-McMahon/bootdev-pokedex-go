@@ -10,7 +10,8 @@ Built through a boot.dev golang course.
 - [x] Help command
 - [x] Graceful exit command
 - [x] Map commands (forward and backward traversing)
+- [x] Caching
 
 ## To Come
 
-- [ ] Caching
+- [ ] Explore command

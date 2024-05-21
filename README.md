@@ -12,6 +12,7 @@ Built through a boot.dev golang course.
 - [x] Map commands (forward and backward traversing)
 - [x] Caching
 - [x] Explore command
-
-## To Come
+- [x] Catch command
+- [x] Inspect command
+- [x] Pokedex command
 

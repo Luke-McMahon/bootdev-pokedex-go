@@ -1,10 +1,15 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 )
 
-func commandExplore(config *commandConfig, locationName *string) error {
+func commandExplore(config *commandConfig, args ...string) error {
+	if len(args) < 1 {
+		return errors.New("must provide location to explore")
+	}
+	locationName := args[0]
 	location, err := config.Client.ListLocationDetails(locationName)
 
 	if err != nil {

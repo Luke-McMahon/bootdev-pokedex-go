@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func commandMapf(config *commandConfig, s *string) error {
+func commandMapf(config *commandConfig, args ...string) error {
 	locationsResp, err := config.Client.ListLocations(config.Next)
 	if err != nil {
 		return err
@@ -21,7 +21,7 @@ func commandMapf(config *commandConfig, s *string) error {
 	return nil
 }
 
-func commandMapb(config *commandConfig, s *string) error {
+func commandMapb(config *commandConfig, args ...string) error {
 	if config.Previous == nil {
 		return errors.New("you're on the first page")
 	}

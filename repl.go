@@ -17,7 +17,7 @@ type commandConfig struct {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*commandConfig, *string) error
+	callback    func(*commandConfig, ...string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -61,26 +61,30 @@ func cleanInput(input string) []string {
 }
 
 func startRepl(config *commandConfig) {
-	commands := getCommands()
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
 		fmt.Print("Pokedex > ")
 		scanner.Scan()
-		text := scanner.Text()
-		cleaned := cleanInput(text)
 
-		command, ok := commands[cleaned[0]]
-		if !ok {
-			fmt.Printf("%v is not supported, see help for usage.\n", text)
+		words := cleanInput(scanner.Text())
+		if len(words) == 0 {
 			continue
 		}
 
-		var loc string
-		if len(cleaned) > 1 {
-			loc = cleaned[1]
+		commandName := words[0]
+		args := []string{}
+		if len(words) > 1 {
+			args = words[1:]
 		}
-		err := command.callback(config, &loc)
+
+		command, ok := getCommands()[commandName]
+		if !ok {
+			fmt.Printf("%v is not supported, see help for usage.\n", commandName)
+			continue
+		}
+
+		err := command.callback(config, args...)
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
 			continue

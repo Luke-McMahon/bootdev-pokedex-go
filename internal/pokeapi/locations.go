@@ -3,7 +3,6 @@ package pokeapi
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 )
@@ -49,12 +48,12 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 	return locationsResponse, nil
 }
 
-func (c *Client) ListLocationDetails(locationName *string) (ShallowLocationDetails, error) {
+func (c *Client) ListLocationDetails(locationName string) (ShallowLocationDetails, error) {
 	url := baseURL + "/location-area/"
-	if *locationName == "" {
+	if locationName == "" {
 		return ShallowLocationDetails{}, errors.New("must provide a location to explore")
 	}
-	url = url + *locationName
+	url = url + locationName
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {

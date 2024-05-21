@@ -2,8 +2,9 @@ package pokeapi
 
 import (
 	"encoding/json"
-	"io"
 	"errors"
+	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -48,36 +49,36 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 	return locationsResponse, nil
 }
 
-func (c *Client) ListLocationDetails(locationName *string) (RespDeepLocations, error) {
+func (c *Client) ListLocationDetails(locationName *string) (ShallowLocationDetails, error) {
 	url := baseURL + "/location-area/"
-	if locationName == nil {
-		return RespDeepLocations{}, errors.New("must provide a location to explore")
+	if *locationName == "" {
+		return ShallowLocationDetails{}, errors.New("must provide a location to explore")
 	}
+	url = url + *locationName
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return RespDeepLocations{}, nil
+		return ShallowLocationDetails{}, nil
 	}
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return RespDeepLocations{}, err
+		return ShallowLocationDetails{}, err
 	}
 	defer resp.Body.Close()
 
 	dat, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return RespDeepLocations{}, err
+		return ShallowLocationDetails{}, err
 	}
 
-	locationDetails := RespDeepLocations{}
+	locationDetails := ShallowLocationDetails{}
 	err = json.Unmarshal(dat, &locationDetails)
 	if err != nil {
-		return RespDeepLocations{}, err
+		return ShallowLocationDetails{}, err
 	}
 
 	c.cache.Add(url, dat)
-
 	return locationDetails, nil
 }
 

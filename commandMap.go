@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-
 )
 
 func commandMapf(config *commandConfig, s *string) error {
@@ -41,4 +40,3 @@ func commandMapb(config *commandConfig, s *string) error {
 
 	return nil
 }
-

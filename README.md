@@ -11,7 +11,7 @@ Built through a boot.dev golang course.
 - [x] Graceful exit command
 - [x] Map commands (forward and backward traversing)
 - [x] Caching
+- [x] Explore command
 
 ## To Come
 
-- [ ] Explore command

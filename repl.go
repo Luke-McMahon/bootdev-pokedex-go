@@ -3,9 +3,9 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/luke-mcmahon/pokedexcli/internal/pokeapi"
 	"os"
 	"strings"
-	"github.com/luke-mcmahon/pokedexcli/internal/pokeapi"
 )
 
 type commandConfig struct {
@@ -38,9 +38,9 @@ func getCommands() map[string]cliCommand {
 			callback:    commandMapb,
 		},
 		"explore": {
-			name: "explore",
+			name:        "explore",
 			description: "Explore the passed in location",
-			callback: commandExplore,
+			callback:    commandExplore,
 		},
 		"exit": {
 			name:        "exit",

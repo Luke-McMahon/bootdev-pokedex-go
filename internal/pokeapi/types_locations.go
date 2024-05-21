@@ -10,7 +10,7 @@ type RespShallowLocations struct {
 	} `json:"results"`
 }
 
-type RespDeepLocations struct {
+type ShallowLocationDetails struct {
 	EncounterMethodRates []struct {
 		EncounterMethod struct {
 			Name string `json:"name"`
